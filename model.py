@@ -36,17 +36,17 @@ class LyricsGenerator:
             return tokenizer, model
         return False
 
-    def generate_text(self, start, num_verses):
+    def generate_text(self, start, max_length):
         if not self.is_trained:
             return "Model is not trained :-("
         input_ids = self.tokenizer.encode(start, return_tensors="pt")
         output = self.model.generate(input_ids,
-                                     min_length=15,
-                                     max_length=35,
+                                     min_length=300,
+                                     max_length=max_length,
                                      num_beams=5,
                                      no_repeat_ngram_size=2,
                                      early_stopping=True,
-                                     num_return_sequences=num_verses)
+                                     num_return_sequences=1)
         return self.decode_lyrics(output)
 
     def decode_lyrics(self, outputs):
@@ -97,7 +97,3 @@ class LyricsGenerator:
         output_dir = f"./models/{self.artist_name}"
         self.model.save_pretrained(output_dir)
         self.tokenizer.save_pretrained(output_dir)
-
-
-generator = LyricsGenerator("Kendrick Lamar")
-print(generator.generate_text("I am up for this shit", 3))

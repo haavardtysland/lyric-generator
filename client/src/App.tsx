@@ -23,7 +23,7 @@ const App = () => {
       setIsLoadingLyrics(true);
       const response = await fetch('http://localhost:5555/generate', {
         method: 'POST',
-        body: JSON.stringify({ artistName: selectedModel, start: startPhrase, maxLength: 5 }),
+        body: JSON.stringify({ artistName: selectedModel, start: startPhrase, maxLength: 450 }),
         headers: {
           'Content-Type': 'application/json'
         }
