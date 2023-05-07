@@ -32,12 +32,24 @@ class LyricsGenerator:
             return tokenizer, model
         return False
 
-    def generate_text(self, start, max_length):
+    def generate_text(self, start, num_verses):
         if not self.is_trained:
             return "Model is not trained :-("
         input_ids = self.tokenizer.encode(start, return_tensors="pt")
-        output = self.model.generate(input_ids, max_length=max_length, num_beams=5, no_repeat_ngram_size=2,early_stopping=True)
-        return self.tokenizer.decode(output[0])
+        output = self.model.generate(input_ids,
+                                     min_length=15,
+                                     max_length=35,
+                                     num_beams=5,
+                                     no_repeat_ngram_size=2,
+                                     early_stopping=True,
+                                     num_return_sequences=num_verses)
+        return self.decode_lyrics(output)
+
+    def decode_lyrics(self, outputs):
+        generated_sequences = []
+        for output in outputs:
+            generated_sequence = self.tokenizer.decode(output, skip_special_tokens=True)
+            generated_sequences.append(generated_sequence)
 
     def train(self, train_dataset, data_collator):
         training_args = TrainingArguments(
@@ -79,7 +91,6 @@ class LyricsGenerator:
         self.model.save_pretrained(output_dir)
         self.tokenizer.save_pretrained(output_dir)
 
-generator = LyricsGenerator("The Beatles")
-text = generator.generate_text("Blue brick houses", 300)
-print(text)
 
+generator = LyricsGenerator("Kendrick Lamar")
+print(generator.generate_text("I am up for this shit", 3))

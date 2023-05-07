@@ -1,5 +1,7 @@
-from flask import Flask
+from flask import Flask, request
 import os
+from model import LyricsGenerator
+from scraper import Scraper
 
 app = Flask(__name__)
 
@@ -10,8 +12,20 @@ def get_pretrained_models():
     return subfolders
 
 @app.route('/generate', methods=['POST'])
-def get_pretrained_models():
-    name = "artist_name"
+def generate_text():
+    json = request.json
+    artist_name = json['artistName']
+    start = json['start']
+    max_length = int(json['maxLength'])
+    data_path = f"data/{artist_name}.txt"
+    if not os.path.exists(data_path):
+        #Websocekt tells client that it is scraping
+        scraper = Scraper(artist_name)
+        scraper.scrape()
+    #Websocket tells client it is training the model or loading a pretrained one
+    generator = LyricsGenerator(artist_name)
+    #And generating text
+    return generator.generate_text(start, max_length)
 
 
 if __name__ == '__main__':
