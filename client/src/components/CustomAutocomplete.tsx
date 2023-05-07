@@ -7,11 +7,11 @@ import useSWR from 'swr';
 interface Props {
     models: string[];
     setModels: React.Dispatch<React.SetStateAction<string[]>>;
-    handleAutocompleteChange: (event: SyntheticEvent<Element, Event>, value: string | null, reason: AutocompleteChangeReason) => void;
+    setSelectedModel: React.Dispatch<React.SetStateAction<string>>;
     isLoading: boolean;
 }
 
-const CustomAutocomplete = ({ models, setModels, handleAutocompleteChange, isLoading }: Props) => {
+const CustomAutocomplete = ({ models, setModels, setSelectedModel, isLoading }: Props) => {
     const { data, error } = useSWR('http://localhost:5555/pretrainedModels', url =>
         fetch(url).then(res => res.json())
     );
@@ -21,6 +21,16 @@ const CustomAutocomplete = ({ models, setModels, handleAutocompleteChange, isLoa
             setModels(data);
         }
     }, [data, setModels])
+
+    const handleAutocompleteChange = (event: SyntheticEvent<Element, Event>, value: string | null, reason: AutocompleteChangeReason) => {
+        if (value && (reason === 'selectOption' || reason === 'createOption')) {
+            setSelectedModel(value)
+        } else if (reason === 'clear') {
+            setSelectedModel('');
+        } else if (reason === 'createOption') {
+
+        }
+    }
 
     if (!data) {
         return <Autocomplete
@@ -38,8 +48,12 @@ const CustomAutocomplete = ({ models, setModels, handleAutocompleteChange, isLoa
         />
     }
 
+
+
+
     return (
         <Autocomplete
+            freeSolo
             disabled={isLoading}
             disablePortal
             options={models}

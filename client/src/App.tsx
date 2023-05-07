@@ -1,5 +1,5 @@
-import { AutocompleteChangeReason, Button, Typography } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
+import { Button, Typography } from '@mui/material';
+import { useState } from 'react';
 import { FidgetSpinner } from 'react-loader-spinner';
 import useSWR from 'swr';
 import './App.css';
@@ -37,13 +37,6 @@ const App = () => {
     }
   }
 
-  const handleAutocompleteChange = (event: SyntheticEvent<Element, Event>, value: string | null, reason: AutocompleteChangeReason) => {
-    if (reason === 'selectOption' && value) {
-      setSelectedModel(value)
-    } else if (reason === 'clear') {
-      setSelectedModel('');
-    }
-  }
 
 
   return (
@@ -62,12 +55,12 @@ const App = () => {
       >
         Lyric Generator
       </Typography>
-      <CustomAutocomplete models={models} setModels={setModels} handleAutocompleteChange={handleAutocompleteChange} isLoading={isLoadingLyrics} />
-      <CustomTextField startPhrase={startPhrase} setStartPhrase={setStartPhrase} />
+      <CustomAutocomplete models={models} setModels={setModels} setSelectedModel={setSelectedModel} isLoading={isLoadingLyrics} />
+      <CustomTextField startPhrase={startPhrase} setStartPhrase={setStartPhrase} isLoading={isLoadingLyrics} />
       <Button
         disabled={selectedModel === '' || startPhrase === ''}
         variant="contained"
-      
+
         sx={{
           fontFamily: 'Chilanka, cursive',
           fontWeight: 'bold',
@@ -77,7 +70,7 @@ const App = () => {
             backgroundColor: "#F0E68C",
           },
           '&:disabled': {
-            backgroundColor: "#A9D0B5",
+            backgroundColor: "#A9D0F5",
           },
           marginBottom: "20px"
         }}
