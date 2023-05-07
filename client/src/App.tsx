@@ -1,28 +1,50 @@
-import { Autocomplete, AutocompleteChangeReason, Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { AutocompleteChangeReason, Button, Typography } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
+import { FidgetSpinner } from 'react-loader-spinner';
+import useSWR from 'swr';
 import './App.css';
+import CustomAutocomplete from './components/CustomAutocomplete';
+import CustomTextField from './components/CustomTextField';
+import LyricsPaper from './components/LyricsPaper';
+
+
 
 
 const App = () => {
-  const models = ['J. Cole', 'Kendrick Lamar', 'The Beatles'];
+  const [models, setModels] = useState<string[]>([]);
+  const [lyrics, setLyrics] = useState<string[]>([]);
+  const [startPhrase, setStartPhrase] = useState<string>('');
   const [selectedModel, setSelectedModel] = useState<string>('');
+  const [isLoadingLyrics, setIsLoadingLyrics] = useState<boolean>(false);
+  const { data, error } = useSWR('http://localhost:5555/generate');
 
-  const onGenerateClick = () => {
+  const onGenerateClick = async () => {
     if (selectedModel !== '') {
-      console.log(selectedModel)
+      setIsLoadingLyrics(true);
+      const response = await fetch('http://localhost:5555/generate', {
+        method: 'POST',
+        body: JSON.stringify({ artistName: selectedModel, start: startPhrase, maxLength: 5 }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const newData = await response.json();
+      setLyrics(newData);
+      //mutate('http://localhost:5555/generate', { data: [...data, newData] }, false);
+      setIsLoadingLyrics(false);
     } else {
       console.log('No model selected')
     }
   }
 
   const handleAutocompleteChange = (event: SyntheticEvent<Element, Event>, value: string | null, reason: AutocompleteChangeReason) => {
-    console.log(reason);
     if (reason === 'selectOption' && value) {
       setSelectedModel(value)
     } else if (reason === 'clear') {
       setSelectedModel('');
     }
   }
+
 
   return (
     <div className="App" style={{ marginBottom: "20px" }}>
@@ -40,23 +62,12 @@ const App = () => {
       >
         Lyric Generator
       </Typography>
-      <Autocomplete
-        disablePortal
-        options={models}
-        multiple={false}
-        sx={{
-          width: 300, backgroundColor: "white",
-          marginBottom: "20px"
-        }}
-        onChange={handleAutocompleteChange}
-        renderInput={(params) => <TextField {...params}
-          sx={{ "& .MuiInputBase-root": { fontSize: 16 } }}
-          placeholder="Artist" />}
-      />
-
+      <CustomAutocomplete models={models} setModels={setModels} handleAutocompleteChange={handleAutocompleteChange} isLoading={isLoadingLyrics} />
+      <CustomTextField startPhrase={startPhrase} setStartPhrase={setStartPhrase} />
       <Button
+        disabled={selectedModel === '' || startPhrase === ''}
         variant="contained"
-
+      
         sx={{
           fontFamily: 'Chilanka, cursive',
           fontWeight: 'bold',
@@ -65,36 +76,27 @@ const App = () => {
           width: 300, height: 56, backgroundColor: "#A9D0F5", '&:hover': {
             backgroundColor: "#F0E68C",
           },
+          '&:disabled': {
+            backgroundColor: "#A9D0B5",
+          },
           marginBottom: "20px"
         }}
         onClick={onGenerateClick}
       >
         Generate lyrics
       </Button>
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          '& > :not(style)': {
-            m: 1,
-            width: '60%',
-          },
-        }}
-      >
-        <Paper sx={{
-          backgroundColor: "#A9D0F5",
-          padding: '2%',
-        }} elevation={3}>
-          <Typography variant="body1" sx={{
-            fontFamily: 'Chilanka, cursive',
-            fontWeight: 'bold',
-            fontSize: 16,
-          }} > This is where the lyrics will be, This is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will be</Typography>
-        </Paper>
-      </Box>
+      {!isLoadingLyrics ?
+        <LyricsPaper lyrics={lyrics} />
+        : <FidgetSpinner
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="dna-loading"
+          wrapperStyle={{}}
+          wrapperClass="dna-wrapper"
+          ballColors={['#004e92 ', "#004e92", '#004e92 ']}
+          backgroundColor="#A9D0F5"
+        />}
     </div >
   );
 }

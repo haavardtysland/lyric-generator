@@ -1,6 +1,9 @@
 import os
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
-from transformers import TextDataset,DataCollatorForLanguageModeling
+
+from transformers import (DataCollatorForLanguageModeling, GPT2LMHeadModel,
+                          GPT2Tokenizer, TextDataset, Trainer,
+                          TrainingArguments)
+
 
 class LyricsGenerator:
     def __init__(self, artist_name):
@@ -21,7 +24,8 @@ class LyricsGenerator:
     def load_model(self):
         model_name = "gpt2"
         self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-        self.model = GPT2LMHeadModel.from_pretrained(model_name, pad_token_id=self.tokenizer.eos_token_id)
+        self.model = GPT2LMHeadModel.from_pretrained(
+            model_name, pad_token_id=self.tokenizer.eos_token_id)
 
     def find_existing_model(self):
         model_path = f"models/{self.artist_name}"
@@ -48,8 +52,10 @@ class LyricsGenerator:
     def decode_lyrics(self, outputs):
         generated_sequences = []
         for output in outputs:
-            generated_sequence = self.tokenizer.decode(output, skip_special_tokens=True)
+            generated_sequence = self.tokenizer.decode(
+                output, skip_special_tokens=True)
             generated_sequences.append(generated_sequence)
+        return generated_sequences
 
     def train(self, train_dataset, data_collator):
         training_args = TrainingArguments(
@@ -83,7 +89,8 @@ class LyricsGenerator:
         train_dataset = TextDataset(file_path=file_path,
                                     block_size=128,
                                     tokenizer=self.tokenizer)
-        data_collator = DataCollatorForLanguageModeling(tokenizer=self.tokenizer, mlm=False)
+        data_collator = DataCollatorForLanguageModeling(
+            tokenizer=self.tokenizer, mlm=False)
         return train_dataset, data_collator
 
     def save_model(self):
