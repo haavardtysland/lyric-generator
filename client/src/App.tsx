@@ -88,10 +88,14 @@ const App = () => {
           backgroundColor: "#A9D0F5",
           padding: '2%',
         }} elevation={3}>
-          <Typography variant="body1">This is where the lyrics will be, This is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will be</Typography>
+          <Typography variant="body1" sx={{
+            fontFamily: 'Chilanka, cursive',
+            fontWeight: 'bold',
+            fontSize: 16,
+          }} > This is where the lyrics will be, This is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will beThis is where the lyrics will be</Typography>
         </Paper>
       </Box>
-    </div>
+    </div >
   );
 }
 
