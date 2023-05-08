@@ -58,7 +58,7 @@ const App = () => {
       <CustomAutocomplete models={models} setModels={setModels} setSelectedModel={setSelectedModel} isLoading={isLoadingLyrics} />
       <CustomTextField startPhrase={startPhrase} setStartPhrase={setStartPhrase} isLoading={isLoadingLyrics} />
       <Button
-        disabled={selectedModel === '' || startPhrase === ''}
+        disabled={selectedModel === '' || startPhrase === '' || isLoadingLyrics}
         variant="contained"
 
         sx={{
@@ -76,7 +76,7 @@ const App = () => {
         }}
         onClick={onGenerateClick}
       >
-        Generate lyrics
+        {!isLoadingLyrics ? 'Generate lyrics' : 'Generating'}
       </Button>
       {!isLoadingLyrics ?
         <LyricsPaper lyrics={lyrics} />

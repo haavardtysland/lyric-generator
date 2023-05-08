@@ -6,8 +6,6 @@ from flask_cors import CORS
 from model import LyricsGenerator
 from scraper import Scraper
 
-
-
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:3000'])
 
@@ -29,7 +27,7 @@ def generate_text():
     if not os.path.exists(data_path):
         # Websocekt tells client that it is scraping
         scraper = Scraper(artist_name)
-        scraper.scrape()
+        scraper.scrape_and_save(float('inf'))
     # Websocket tells client it is training the model or loading a pretrained one
     generator = LyricsGenerator(artist_name)
     # And generating text

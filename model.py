@@ -41,12 +41,15 @@ class LyricsGenerator:
             return "Model is not trained :-("
         input_ids = self.tokenizer.encode(start, return_tensors="pt")
         output = self.model.generate(input_ids,
-                                     min_length=300,
+                                     min_length=100,
                                      max_length=max_length,
-                                     num_beams=5,
                                      no_repeat_ngram_size=2,
                                      early_stopping=True,
-                                     num_return_sequences=1)
+                                     num_return_sequences=1,
+                                     temperature=float(1),
+                                     top_p=0.95,
+                                     top_k=50,
+                                     repetition_penalty=1.0)
         return self.decode_lyrics(output)
 
     def decode_lyrics(self, outputs):
@@ -61,7 +64,7 @@ class LyricsGenerator:
         training_args = TrainingArguments(
             output_dir='./results',  # output directory
             num_train_epochs=3,  # total number of training epochs
-            per_device_train_batch_size=16,  # batch size per device during training
+            per_device_train_batch_size=32,  # batch size per device during training
             per_device_eval_batch_size=64,  # batch size for evaluation
             warmup_steps=500,  # number of warmup steps for learning rate scheduler
             weight_decay=0.01,  # strength of weight decay

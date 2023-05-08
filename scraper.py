@@ -1,4 +1,7 @@
+import re
+
 import lyricsgenius
+
 
 class Scraper:
     def __init__(self, artist_name):
@@ -11,11 +14,18 @@ class Scraper:
         print(artist)
         songs = []
         for song in artist.songs:
-            songs.append(song.lyrics)
+            songs.append(self.preprocess(song.lyrics))
         return songs
 
+    def preprocess(lyrics):
+            song_lyrics =  re.sub(r'\[.*?\]', '', lyrics)
+            song_lyrics_words = [word for word in song_lyrics.split() if not word.startswith('Contribut')]
+            song_lyrics = ' '.join(song_lyrics_words)
+            song_lyrics = song_lyrics.replace('You might also like', '')
+            return song_lyrics
+    
     def scrape_and_save(self, max_songs=15):
-        songs = self.scrape(self.artist_name, max_songs)
+        songs = self.scrape(max_songs)
         with open(f'data/{self.artist_name}.txt', 'w') as file:
             for string in songs:
                 file.write(string + '\n')
