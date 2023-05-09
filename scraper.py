@@ -18,11 +18,10 @@ class Scraper:
         return songs
 
     def preprocess(self, lyrics):
-            song_lyrics = re.sub(r'\[.*?\]', '', lyrics)
-            song_lyrics = re.sub(r'\d+$', '', song_lyrics)
-            song_lyrics = re.sub(r'^.*Contributor.*\n?', '', song_lyrics)
-            song_lyrics = str(song_lyrics).lstrip().rstrip()
-            song_lyrics = str(song_lyrics).replace("\n\n", "\n")
+            song_lyrics = re.sub(r'\[.*?\]', '', lyrics) #Remove bracket words like [Verse 1]
+            song_lyrics = re.sub(r'\d+$', '', song_lyrics) #Remove trailing digits at the end of a string
+            song_lyrics = re.sub(r'^.*Contributor.*\n?', '', song_lyrics) #Remove Contributor lines
+            song_lyrics = str(song_lyrics).lstrip().rstrip() #Remove leading or trailing whitespace
             song_lyrics = str(song_lyrics).replace("\n\n", "\n")
             song_lyrics = re.sub(' +', ' ', song_lyrics)
             song_lyrics = str(song_lyrics).replace('"', "")

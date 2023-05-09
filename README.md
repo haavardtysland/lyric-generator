@@ -18,7 +18,7 @@ Initially, a self-made scraper was coded by the team, but because of common web 
 
 ## Preprocessing of lyrics
 
-The lyrics available through Genius.com requires some preprocessing to work with. For example, there are alot of instances of non-relevant text like above a verse to show what verse it is or who is singing it. An example from the song "Shape of You" by Ed Sheeran:
+The lyrics available through Genius.com requires some preprocessing to work with. For example, there are alot of instances of irrelevant text like above a verse to show what verse it is or who is singing it. An example from the song "Shape of You" by Ed Sheeran:
 
 `[Verse 1]`<br>
 A club isn't the best place to find a lover<br>
