@@ -4,6 +4,7 @@ import { FidgetSpinner } from 'react-loader-spinner';
 import useSWR from 'swr';
 import './App.css';
 import CustomAutocomplete from './components/CustomAutocomplete';
+import CustomSlider from './components/CustomSlider';
 import CustomTextField from './components/CustomTextField';
 import LyricsPaper from './components/LyricsPaper';
 
@@ -15,6 +16,7 @@ const App = () => {
   const [lyrics, setLyrics] = useState<string[]>([]);
   const [startPhrase, setStartPhrase] = useState<string>('');
   const [selectedModel, setSelectedModel] = useState<string>('');
+  const [maxLength, setMaxLength] = useState<number>(300);
   const [isLoadingLyrics, setIsLoadingLyrics] = useState<boolean>(false);
   const { data, error } = useSWR('http://localhost:5555/generate');
 
@@ -23,7 +25,7 @@ const App = () => {
       setIsLoadingLyrics(true);
       const response = await fetch('http://localhost:5555/generate', {
         method: 'POST',
-        body: JSON.stringify({ artistName: selectedModel, start: startPhrase, maxLength: 450 }),
+        body: JSON.stringify({ artistName: selectedModel, start: startPhrase, maxLength: maxLength }),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -57,6 +59,7 @@ const App = () => {
       </Typography>
       <CustomAutocomplete models={models} setModels={setModels} setSelectedModel={setSelectedModel} isLoading={isLoadingLyrics} />
       <CustomTextField startPhrase={startPhrase} setStartPhrase={setStartPhrase} isLoading={isLoadingLyrics} />
+      <CustomSlider maxLength={maxLength} setMaxLength={setMaxLength}></CustomSlider>
       <Button
         disabled={selectedModel === '' || startPhrase === '' || isLoadingLyrics}
         variant="contained"
