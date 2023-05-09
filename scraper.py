@@ -17,10 +17,17 @@ class Scraper:
             songs.append(self.preprocess(song.lyrics))
         return songs
 
-    def preprocess(lyrics):
-            song_lyrics =  re.sub(r'\[.*?\]', '', lyrics)
-            song_lyrics_words = [word for word in song_lyrics.split() if not word.startswith('Contribut')]
-            song_lyrics = ' '.join(song_lyrics_words)
+    def preprocess(self, lyrics):
+            song_lyrics = re.sub(r'\[.*?\]', '', lyrics)
+            song_lyrics = re.sub(r'\d+$', '', song_lyrics)
+            song_lyrics = re.sub(r'^.*Contributor.*\n?', '', song_lyrics)
+            song_lyrics = str(song_lyrics).lstrip().rstrip()
+            song_lyrics = str(song_lyrics).replace("\n\n", "\n")
+            song_lyrics = str(song_lyrics).replace("\n\n", "\n")
+            song_lyrics = re.sub(' +', ' ', song_lyrics)
+            song_lyrics = str(song_lyrics).replace('"', "")
+            song_lyrics = str(song_lyrics).replace("'", "")
+            song_lyrics = str(song_lyrics).replace("*", "")
             song_lyrics = song_lyrics.replace('You might also like', '')
             return song_lyrics
     
