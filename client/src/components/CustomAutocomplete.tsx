@@ -44,6 +44,7 @@ const CustomAutocomplete = ({ models, setModels, setSelectedModel, isLoading }: 
             onChange={handleAutocompleteChange}
             renderInput={(params) => <TextField {...params}
                 sx={{ "& .MuiInputBase-root": { fontSize: 16 } }}
+                placeholder="Loading"
             />}
         />
     }

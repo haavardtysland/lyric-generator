@@ -23,7 +23,7 @@ const CustomSlider = ({ maxLength, setMaxLength }: Props) => {
                 onChange={handleChange}
                 min={100}
                 max={450}
-                valueLabelDisplay="on"
+                valueLabelDisplay="auto"
                 valueLabelFormat={'Number of words to include: ' + maxLength}
                 sx={{ width: 300, backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }}
             />
