@@ -9,6 +9,7 @@ Made by: Ole Løkken, Mathias Myrold & Håvard Tysland(XRJ9349)
 - [Preprocessing of lyrics](#preprocessing-of-lyrics)
 - [Lyric generation](#lyric-generation)
 - [Frontend](#frontend)
+- [Running the application](#running-the-application)
 
 ## Scraping
 
@@ -49,3 +50,8 @@ which usually just shows the contributors and translations of a song. All prepro
 ## Frontend
 
 The frontend is created with React using prebuilt components from Materiaul UI.
+
+## Running the application
+1. Install neccesary dependencies (`npm install` in client folder and `pip/pip3 install requirements.txt` in root folder ).
+2. To run the lyric generating API run `python3 api.py` in the root of the project.
+3. To run the frontend navigate to the client folder and run `npm start`.
