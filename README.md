@@ -52,6 +52,6 @@ which usually just shows the contributors and translations of a song. All prepro
 The frontend is created with React using prebuilt components from Materiaul UI.
 
 ## Running the application
-1. Install neccesary dependencies (`npm install` in client folder and `pip/pip3 install requirements.txt` in root folder ).
+1. Install neccesary dependencies (`npm install` in client folder and `pip/pip3 install -r requirements.txt` in root folder ).
 2. To run the lyric generating API run `python3 api.py` in the root of the project.
 3. To run the frontend navigate to the client folder and run `npm start`.
