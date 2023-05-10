@@ -5,8 +5,8 @@ Made by: Ole Løkken, Mathias Myrold(VVF8792) & Håvard Tysland(XRJ9349)
 ## Content
 
 - [Scraping](#scraping)
-- [Model](#model)
 - [Preprocessing of lyrics](#preprocessing-of-lyrics)
+- [Model](#model)
 - [Lyric generation](#lyric-generation)
 - [User Interface](#user-interface-and-API)
 - [Running the application](#running-the-application)
