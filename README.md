@@ -1,6 +1,6 @@
 # Lyric generator
 
-Made by: Ole Løkken, Mathias Myrold(VVF8792) & Håvard Tysland(XRJ9349)
+Made by: Ole Løkken(GVB6374), Mathias Myrold(VVF8792) & Håvard Tysland(XRJ9349)
 
 ## Content
 
