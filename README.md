@@ -53,3 +53,5 @@ The UI is written in TypeScript with [React](https://react.dev/) using prebuilt 
 1. Install neccesary dependencies (`npm install` in client folder and `pip/pip3 install -ro requirements.txt` in root folder ).
 2. To run the lyric generating API run `python3 api.py` in the root of the project.
 3. To run the frontend navigate to the client folder and run `npm start`.
+
+Before runnning the applications you also have to download the pre-trained models from https://share.internxt.com/d/sh/folder/4726d0ca9afb5d13d461/54c9cf90f09febabded569daf89837be8db51cd2eb6214c58837af70c8dca049. After downloading them the models should be put in a folder named "models" in the root of the project.
