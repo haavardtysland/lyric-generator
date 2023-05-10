@@ -15,7 +15,8 @@ Made by: Ole Løkken, Mathias Myrold(VVF8792) & Håvard Tysland(XRJ9349)
 
 Scraping the lyrics is an important part of the project, as this is what the models will be trained on. The scraping is done through [lyricsgenius](https://lyricsgenius.readthedocs.io/en/master/) which is a Python client for the [Genius.com API](https://docs.genius.com/).
 
-Initially, a self-made scraper was coded by the team, but because of common web scraping issues like getting IP-blocked a library like lyricsgenius was used.
+Initially, a self-made scraper was coded by the team, but because of common web scraping issues like getting IP-blocked a library like lyricsgenius was used. You can see the scraper in the custom_scraper folder. 
+
 
 ## Preprocessing of lyrics
 
@@ -39,6 +40,8 @@ Other things that has been done is removing reocurring sentences like `"You migh
 which usually just shows the contributors and translations of a song. All preprocessing can also be viewed in the `preprocess` function under `scraper.py`.
 
 ## Model
+We have used the GPT2 Transformer Model which is specialized for predicting the next word in a sentence. The Model has been trained by OpenAI with a 40GB dataset called WebText which has been crawled from the web. The pre-trained models models is not very good at specific tasks as creating song lyrics in our case, thats why we finetune the pre-trained model with different song lyrics. Earlier they used RNNs for language operations, but in 2018 the first transformer model was introduced. The biggest reason to use transformers is because of self-attention which
+allows the model to weigh the importance of different words in a sequence by considering their relationships and dependencies. It captures long-range dependencies and helps the model understand contextual information. GPT2 is self-supervised which means it is trained on unlabeled data, and therefore have a statistical understanding of language but is bad at specific tasks. The GPT is also uni-directional (Auto-regressive) which means it only considers the words that has been generated, when it calculates the probability for the next word. A traditional transformer consist of both an encoder and decoder, but the GPT is a decoder-only model. You can split the different transformers into Encoder-only which is good at understanding input, Encoder-only which is good at text-generation and Decoder-Encoder which is good at taking an input and make changes to it (Language translation). 
 
 ## Lyric Generation
 
